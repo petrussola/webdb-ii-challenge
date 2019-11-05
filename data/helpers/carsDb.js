@@ -1,1 +1,9 @@
-const db = require('../')
+const db = require("../dbConfig");
+
+module.exports = {
+  get
+};
+
+function get() {
+  return db("cars");
+}
