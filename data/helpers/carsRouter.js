@@ -31,6 +31,30 @@ router.post("/", validateCar, (req, res) => {
     });
 });
 
+router.delete("/:id", validateCarId, (req, res) => {
+  //   const { id } = req.data.id;
+  Cars.remove(req.data.id)
+    .then(data => {
+      res.status(200).json({ message: `Car has been deleted` });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: `Error deleting car to the server: ${error.message}`
+      });
+    });
+});
+
+router.put("/:id", [validateCarId, validateCar], (req, res) => {
+  Cars.update(req.data.id, req.body)
+    .then(data => {
+      res.status(200).json({ message: `Car ${req.data.id} has been edited` });
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: `Error updating car to the server: ${error.message}`
+    });
+});
+
 // MIDDLEWARE
 
 function validateCarId(req, res, next) {
