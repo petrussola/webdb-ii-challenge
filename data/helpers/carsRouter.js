@@ -15,6 +15,10 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/:id", validateCarId, (req, res) => {
+  res.status(200).json(req.data);
+});
+
 router.post("/", validateCar, (req, res) => {
   Cars.insert(req.body)
     .then(data => {
@@ -28,6 +32,26 @@ router.post("/", validateCar, (req, res) => {
 });
 
 // MIDDLEWARE
+
+function validateCarId(req, res, next) {
+  const { id } = req.params;
+  Cars.getById(id)
+    .then(data => {
+      if (data) {
+        req.data = data;
+        next();
+      } else {
+        res
+          .status(404)
+          .json({ message: `Car with id ${id} could not be found` });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: `There was an error retrieving car ${id}: ${error.message}`
+      });
+    });
+}
 
 function validateCar(req, res, next) {
   if (Object.keys(req.body).length) {

@@ -2,11 +2,18 @@ const db = require("../dbConfig");
 
 module.exports = {
   get,
-  insert
+  insert,
+  getById
 };
 
 function get() {
   return db("cars");
+}
+
+function getById(id) {
+  return db("cars")
+    .where({ id })
+    .first();
 }
 
 function insert(data) {
