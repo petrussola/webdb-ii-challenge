@@ -3,7 +3,8 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-require('dotenv').config();
+require("dotenv").config();
+const actionRouter = require("../data/helpers/carsRouter");
 
 // INITIALIZE EXPRESS INSTANCE
 
@@ -14,6 +15,8 @@ const server = express();
 server.use(cors());
 server.use(helmet());
 server.use(express.json());
+
+server.use("/api/cars", actionRouter);
 
 // EXPORTS
 
