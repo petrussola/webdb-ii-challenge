@@ -15,4 +15,16 @@ router.get("/", (req, res) => {
     });
 });
 
+router.post("/", (req, res) => {
+  Cars.insert(req.body)
+    .then(data => {
+      res.status(200).json(data);
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ message: `Error posting car to the server: ${error.message}` });
+    });
+});
+
 module.exports = router;
