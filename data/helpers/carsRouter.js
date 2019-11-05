@@ -53,7 +53,8 @@ router.put("/:id", [validateCarId, validateCar], (req, res) => {
         res.status(500).json({
             message: `Error updating car to the server: ${error.message}`
     });
-});
+  });
+})
 
 // MIDDLEWARE
 
