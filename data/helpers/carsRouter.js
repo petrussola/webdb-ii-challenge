@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", validateCar, (req, res) => {
   Cars.insert(req.body)
     .then(data => {
       res.status(200).json(data);
@@ -26,5 +26,23 @@ router.post("/", (req, res) => {
         .json({ message: `Error posting car to the server: ${error.message}` });
     });
 });
+
+// MIDDLEWARE
+
+function validateCar(req, res, next) {
+  if (Object.keys(req.body).length) {
+    if (req.body.vin && req.body.make && req.body.model && req.body.mileage) {
+      next();
+    } else {
+      res
+        .status(500)
+        .json({ message: `Please provide all mandatory car information` });
+    }
+  } else {
+    res
+      .status(500)
+      .json({ message: `Please provide all mandatory car information` });
+  }
+}
 
 module.exports = router;
